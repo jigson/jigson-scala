@@ -1,1 +1,2 @@
 # jigson-scala
+# jigson-node
