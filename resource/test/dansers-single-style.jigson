@@ -1,0 +1,15 @@
+maxime.name 				: "maxime"
+maxime.age  				: 32
+maxime.level."light jig" 	: "expert"
+maxime.level."slip jig"		: "newbie"
+maxime.level."single jig"	: "newbie"
+maxime.level."treble jig"	: "intermediate"
+
+cedric.name					: "cedric"
+cedric.age					: 32
+cedric.level."light jig"	: "intermediate"
+cedric.level."slip jig"		: "newbie"
+cedric.level."single jig"	: "intermediate"
+cedric.level."treble jig"	: "newbie"
+
+dansers 					: [ @maxime, @cedric ]
