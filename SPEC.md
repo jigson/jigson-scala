@@ -5,7 +5,7 @@ JIGSon is a JSon format based on the irish danse Jig.
 Like a father whould tell to his son :
 > Json Is Gone Son 
 
-By Maxime Lemaire and Cedric Lechevrel.
+By Cedric Lechevrel.
 
 Be warned, this spec is still changing a lot. Until it's marked as 1.0, you
 should assume that it is unstable and act accordingly.
@@ -36,7 +36,7 @@ Example
 
 ```JSON
 
-owner {	name = "Maxime Lemaire & Cedric Lechevrel" }
+owner {	name = "Cedric Lechevrel" }
 
 # Array of server configuration
 servers [
