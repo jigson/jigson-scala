@@ -1,1 +1,1 @@
-# jigson
+# jigson-node
