@@ -16,13 +16,12 @@ object JSONStyle {
       v match {
         case JIGBoolean(value) => value.toString()
         case JIGNumber(value) => value.toString()
-        case JIGString(value) => '"' + value.toString() + '"' 
+        case JIGString(value) => '"' + value.toString().replace("\"", "\\\"") + '"' 
         case JIGNull() => "null"
-        case JIGObject(attrs) => {for ((k:String, v:JIGValue) <- attrs) yield "\"" + k + "\" = " + v.toStyle(indent + 1)}.mkString(s"$indentstr{$indentstr", s" ,$indentstr", s"$indentstr}$indentstr")
+        case JIGObject(attrs) => {for ((k:String, v:JIGValue) <- attrs) yield "\"" + k + "\" : " + v.toStyle(indent + 1)}.mkString(s"$indentstr{$indentstr", s" ,$indentstr", s"$indentstr}$indentstr")
         case JIGArray(values) => {for (v:JIGValue <- values) yield " " + v.toStyle(indent + 1)}.mkString(s"$indentstr($indentstr", s" ,$indentstr", s"$indentstr)$indentstr")
       }
     }
   }
-  
   
 }

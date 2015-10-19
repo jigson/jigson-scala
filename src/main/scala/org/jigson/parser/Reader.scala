@@ -1,26 +1,32 @@
 package org.jigson.parser
 
-import org.jigson.model.JIGValue
-import scala.io.Source
-import scala.io.Codec
-import java.net.URI
-import org.jigson.model.JIGNull
+import java.io.File
 import scala.io.BufferedSource
+import scala.io.Source
 import scala.util.Try
+import org.jigson.model.JIGValue
+import org.parboiled2.ParserInput.apply
+import java.nio.file.Paths
+
 
 object Reader {
   
-  def readFile(filename:String):Try[JIGValue] = {
-    using(Source.fromFile(filename)) { parseSource(_) };
+  def readFile(filename:String, root:Option[String] = None):Try[JIGValue] = {
+    val sourceName = root match {
+      case None => filename
+      case Some(rootString) => 
+        val filePath = Paths.get(rootString, filename);
+        filePath.toString()
+    }
+    using(Source.fromFile(sourceName)) { 
+      (source:BufferedSource) =>
+        val currentFile = new File(sourceName);
+        parseSource(source, Some(currentFile.getParent())) };
   }
   
-  def readRemote(uri:String):Try[JIGValue] = {
-    using(Source.fromURI(new URI(uri))(Codec.UTF8)) { parseSource(_) };
-  }
-  
-  private def parseSource(source:BufferedSource):Try[JIGValue] = {
+  private def parseSource(source:BufferedSource, rootDir:Option[String]):Try[JIGValue] = {
     val str = source.mkString
-    new Parser(str).parse()
+    new Parser(str, rootDir).parse()
   }
   
   private def using[A <: { def close():Unit }, B](resource:A)(f: A => B): B = 

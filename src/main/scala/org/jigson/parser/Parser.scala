@@ -1,22 +1,22 @@
 package org.jigson.parser
 
 import scala.collection.mutable.{ Map => MMap }
+import scala.util.Success
+import scala.util.Try
+
 import org.jigson.model.JIGArray
 import org.jigson.model.JIGBoolean
 import org.jigson.model.JIGNull
 import org.jigson.model.JIGNumber
 import org.jigson.model.JIGObject
+import org.jigson.model.JIGObject
 import org.jigson.model.JIGString
 import org.jigson.model.JIGValue
 import org.parboiled2._
-import org.parboiled2.{Parser => BaseParser }
+import org.parboiled2.{ Parser => BaseParser }
 import org.parboiled2.ParserInput
-import scala.util.Try
-import scala.util.Failure
-import scala.util.Success
-import org.jigson.model.JIGObject
 
-class Parser(val input:ParserInput) extends BaseParser() {
+class Parser(val input:ParserInput, rootDir:Option[String] = None) extends BaseParser() {
  
   
   import CharPredicate.{Digit19, Digit, HexDigit,Alpha, AlphaNum}
@@ -73,11 +73,11 @@ class Parser(val input:ParserInput) extends BaseParser() {
   def Value:Rule1[JIGValue] = rule { Null | JBoolean | Number | JString | Object | Array | ReferencedValue | Include }
   
   // Include
-  def IncludePattern:Rule1[String] = rule { ("!include" | "!inc") ~ Space.* ~  UnwrappedString ~ WhiteSpace }
+  def IncludePattern:Rule1[String] = rule { "!"  ~ Space.* ~  UnwrappedString ~ WhiteSpace }
   def Include = rule { IncludePattern  ~> ((filename:String) => readNewFile(filename)) }
   
   def readNewFile(filename:String) : JIGValue =  {
-     readFile(filename) match {
+     readFile(filename, rootDir) match {
        case Success(obj) => obj
        case _ => fail("WARNING : Cannot include " + filename); JIGObject()
      }
