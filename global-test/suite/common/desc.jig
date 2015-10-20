@@ -1,0 +1,6 @@
+name "json-comp"
+version "0.0.1"
+description "Compare 2 JSon"
+main "index.js"
+author ""
+license "ISC"

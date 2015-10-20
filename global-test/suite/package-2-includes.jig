@@ -1,0 +1,3 @@
+!include "common/desc.jig"
+dependencies !include "common/dependencies.jig"
+scripts { test "echo \"Error: no test specified\" && exit 1" }
